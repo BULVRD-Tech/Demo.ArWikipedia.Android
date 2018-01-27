@@ -1,0 +1,45 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
+    defaultConfig {
+        applicationId "com.arwrld.arwikipedia"
+        minSdkVersion 21
+        targetSdkVersion 27
+        versionCode 1
+        versionName "0.0.1"
+    }
+    buildTypes {
+        release {
+            postprocessing {
+                removeUnusedCode false
+                removeUnusedResources false
+                obfuscate false
+                optimizeCode false
+                proguardFile 'proguard-rules.pro'
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:27.0.2'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation('com.google.android.gms:play-services-location:11.6.2') {
+        exclude group: 'com.google.gson'
+    }
+    implementation('io.nlopez.smartlocation:library:3.3.1') {
+        exclude group: 'com.google.android.gms'
+        transitive = true
+    }
+    implementation 'com.koushikdutta.ion:ion:2.+'
+    implementation 'com.google.code.gson:gson:2.8.1'
+    implementation 'com.github.bumptech.glide:glide:4.2.0'
+    implementation 'com.github.doug-precocity:cameraview:89c29a1'
+    implementation("com.github.hotchemi:permissionsdispatcher:3.1.0") {
+        exclude module: "support-v13"
+    }
+    annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:3.1.0"
+}
