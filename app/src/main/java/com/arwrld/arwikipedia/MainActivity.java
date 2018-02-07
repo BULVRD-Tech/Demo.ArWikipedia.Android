@@ -17,8 +17,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.SurfaceView;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.arwrld.arwikipedia.ar.ArOverlayView;
@@ -51,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     CameraView cameraView;
     private SurfaceView surfaceView;
     private FrameLayout cameraContainerLayout;
+    private LinearLayout banner;
 
     private Context mContext;
     private ArOverlayView arOverlayView;
@@ -70,6 +73,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private RequestOptions requestOptions;
     private int attrSize = 0;
 
+    private static final String extraVal = "ArWrldWikiArDemo";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         cameraView = findViewById(R.id.camera);
         surfaceView = findViewById(R.id.surface_view);
         cameraContainerLayout = findViewById(R.id.camera_container_layout);
+        banner = findViewById(R.id.banner);
         mContext = this;
 
         arOverlayView = new ArOverlayView(mContext, MainActivity.this);
@@ -87,6 +93,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         requestOptions.apply(RequestOptions.centerCropTransform());
         requestOptions.transform(new MapCircleTransform(mContext));
         requestOptions.priority(Priority.HIGH);
+
+        banner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse("http://arwrld.com" + "?ref=" + extraVal + "?utm_source=" + extraVal + "?from=" + extraVal));
+                mContext.startActivity(i);
+            }
+        });
     }
 
     @Override
@@ -192,7 +207,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     public void processTouchEvent(final int objectId) {
-        String url = "https://en.wikipedia.org/?curid=" + objectId;
+        String url = "https://en.wikipedia.org/?curid=" + objectId  + "?ref=" + extraVal + "?utm_source=" + extraVal + "?from=" + extraVal;
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(url));
         mContext.startActivity(i);
